@@ -35,7 +35,10 @@ for player in players:
     playerData = requests.get(followLink).json()
     playerStats = playerData['stats'][0]['splits'][0]['stat']
     for v in playerStats:
-        if isinstance(playerStats[v], (int, float)): playerStats[v] = float(playerStats[v])
+        try:
+            if not isinstance(playerStats[v], (int, float)): playerStats[v] = float(playerStats[v])
+        except ValueError:
+            pass
     allPlayers[player["person"]["fullName"]] = playerStats
 
 # access the transactions page for the team: https://www.espn.com/mlb/team/transactions/_/name/wsh/ (get 3 letter code for the team)
